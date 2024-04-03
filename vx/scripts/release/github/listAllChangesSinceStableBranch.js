@@ -2,6 +2,7 @@ const exec = require('child_process').execSync;
 
 const IGNORE_PATTERN = require('./commitIgnorePattern');
 
+const logger = require('vx/logger');
 const { STABLE_BRANCH, CURRENT_BRANCH } = require('vx/util/taggedBranch');
 
 /**
@@ -14,7 +15,12 @@ function listAllChangesSinceStableBranch() {
   exec(`git fetch origin ${STABLE_BRANCH}`);
 
   const output = exec(
-    `git log origin/${STABLE_BRANCH}..origin/${CURRENT_BRANCH} --name-only --pretty='format:%h  %s (%an)'`
+    `git log origin/${STABLE_BRANCH}..origin/${CURRENT_BRANCH} --name-only --pretty='format:%h  %s (%an)'`,
+  );
+
+  logger.log(
+    `All changes between origin/${STABLE_BRANCH}..origin/${CURRENT_BRANCH}: `,
+    output.toString(),
   );
 
   return output
@@ -24,7 +30,7 @@ function listAllChangesSinceStableBranch() {
       commit =>
         commit
           .split('\n') // split each line of each commit
-          .filter(Boolean) // ignore empty lines
+          .filter(Boolean), // ignore empty lines
     )
     .filter(([title]) => !title?.match(IGNORE_PATTERN) ?? false) // ignore excluded terms
     .map(([title, ...files]) => ({
