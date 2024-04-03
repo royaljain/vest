@@ -18,6 +18,7 @@ keywords:
     enforce,
     enforce.extend,
     compose,
+    debounce,
     only,
     skip,
     include,
@@ -69,6 +70,7 @@ Below is a list of all the API functions exposed by Vest.
 
   - [test.memo](./writing_tests/advanced_test_features/test.memo.md) - Memoizes a test run as long as its dependencies haven't changed.
   - [warn](./writing_tests/warn_only_tests.md) - resides within the test body. Sets the test's severity to warning.
+  - [debounce](./writing_tests/advanced_test_features/debounce.md) - Debounces a test to improve async test performance and flow control.
 
 - [enforce](./enforce/enforce.md) - Asserts that a value matches your desired result.
 
