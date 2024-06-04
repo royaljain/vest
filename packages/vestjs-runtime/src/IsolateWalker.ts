@@ -18,18 +18,13 @@ export function walk(
 
   let broke = false;
 
+  // If the breakout function has been called, stop the walk.
+  if (broke) {
+    return;
+  }
+
   // For each child Isolate object, call the callback function.
   for (const isolate of startNode.children) {
-    if (broke) {
-      return;
-    }
-
-    // If visitOnly is not provided or the predicate is satisfied, call the callback function.
-    if (isNullish(visitOnly) || optionalFunctionValue(visitOnly, isolate)) {
-      callback(isolate, breakout);
-    }
-
-    // If the breakout function has been called, stop the walk.
     if (broke) {
       return;
     }
@@ -45,6 +40,15 @@ export function walk(
       },
       visitOnly,
     );
+
+    // If the breakout function has been called, stop the walk.
+    if (broke) {
+      return;
+    }
+    // If visitOnly is not provided or the predicate is satisfied, call the callback function.
+    if (isNullish(visitOnly) || optionalFunctionValue(visitOnly, isolate)) {
+      callback(isolate, breakout);
+    }
   }
 
   function breakout() {
