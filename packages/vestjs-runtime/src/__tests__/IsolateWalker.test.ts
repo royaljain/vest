@@ -28,18 +28,27 @@ describe('walk', () => {
     } as unknown as WalkedNode;
   });
 
-  it('Should walk through the tree except the root', () => {
+  it('Should walk through the tree', () => {
     const visited: Set<string> = new Set();
     walk(tree, isolate => {
       visited.add(isolate.data.id);
     });
 
     expect(visited).toEqual(
-      new Set(['0.0.0', '0.0.1.0', '0.0.1.1', '0.0.1', '0.0.2', '0.0', '0.1']),
+      new Set([
+        '0.0.0',
+        '0.0.1.0',
+        '0.0.1.1',
+        '0.0.1',
+        '0.0.2',
+        '0.0',
+        '0.1',
+        '0',
+      ]),
     );
   });
 
-  it("Should traverse the tree in a depth-first order, starting from the root's children", () => {
+  it('Should traverse the tree in a depth-first order', () => {
     const visited: string[] = [];
     walk(tree, isolate => {
       visited.push(isolate.data.id);
@@ -53,6 +62,7 @@ describe('walk', () => {
       '0.0.2',
       '0.0',
       '0.1',
+      '0',
     ]);
   });
 

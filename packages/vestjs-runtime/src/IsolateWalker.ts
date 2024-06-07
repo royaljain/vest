@@ -11,11 +11,6 @@ export function walk(
   callback: (isolate: TIsolate, breakout: CB<void>) => void,
   visitOnly?: VisitOnlyPredicate,
 ): void {
-  // If the startNode has no children, there is nothing to walk.
-  if (isNullish(startNode.children)) {
-    return;
-  }
-
   let broke = false;
 
   // If the breakout function has been called, stop the walk.
@@ -24,11 +19,7 @@ export function walk(
   }
 
   // For each child Isolate object, call the callback function.
-  for (const isolate of startNode.children) {
-    if (broke) {
-      return;
-    }
-
+  for (const isolate of startNode.children ?? []) {
     // Recursively walk through the child Isolate object.
     walk(
       isolate,
@@ -40,15 +31,15 @@ export function walk(
       },
       visitOnly,
     );
-
     // If the breakout function has been called, stop the walk.
     if (broke) {
       return;
     }
-    // If visitOnly is not provided or the predicate is satisfied, call the callback function.
-    if (isNullish(visitOnly) || optionalFunctionValue(visitOnly, isolate)) {
-      callback(isolate, breakout);
-    }
+  }
+
+  // If visitOnly is not provided or the predicate is satisfied, call the callback function.
+  if (isNullish(visitOnly) || optionalFunctionValue(visitOnly, startNode)) {
+    callback(startNode, breakout);
   }
 
   function breakout() {
