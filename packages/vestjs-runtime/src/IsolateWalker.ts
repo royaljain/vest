@@ -47,6 +47,25 @@ export function walk(
   }
 }
 
+export function reduce<T>(
+  startNode: TIsolate,
+  callback: (acc: T, isolate: TIsolate, breakout: CB<void>) => T,
+  initialValue: T,
+  visitOnly?: VisitOnlyPredicate,
+): T {
+  let acc = initialValue;
+
+  walk(
+    startNode,
+    (node, breakout) => {
+      acc = callback(acc, node, breakout);
+    },
+    visitOnly,
+  );
+
+  return acc;
+}
+
 // This function returns true if the given predicate function returns true for any Isolate object in the tree.
 // If visitOnly is provided, only Isolate objects that satisfy the predicate are visited.
 export function some(
