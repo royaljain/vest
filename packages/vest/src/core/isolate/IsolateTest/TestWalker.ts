@@ -18,7 +18,7 @@ export class TestWalker {
 
   static someTests(
     predicate: (test: TIsolateTest) => boolean,
-    root: MaybeRoot = TestWalker.defaultRoot()
+    root: MaybeRoot = TestWalker.defaultRoot(),
   ): boolean {
     if (!root) return false;
     return Walker.some(
@@ -28,13 +28,13 @@ export class TestWalker {
 
         return predicate(isolate);
       },
-      VestTest.is
+      VestTest.is,
     );
   }
 
   static everyTest(
     predicate: (test: TIsolateTest) => boolean,
-    root: MaybeRoot = TestWalker.defaultRoot()
+    root: MaybeRoot = TestWalker.defaultRoot(),
   ): boolean {
     if (!root) return false;
     return Walker.every(
@@ -44,13 +44,13 @@ export class TestWalker {
 
         return predicate(isolate);
       },
-      VestTest.is
+      VestTest.is,
     );
   }
 
   static walkTests<F extends TFieldName, G extends TGroupName>(
     callback: (test: TIsolateTest<F, G>, breakout: () => void) => void,
-    root: MaybeRoot = TestWalker.defaultRoot()
+    root: MaybeRoot = TestWalker.defaultRoot(),
   ): void {
     if (!root) return;
     Walker.walk(
@@ -58,13 +58,29 @@ export class TestWalker {
       (isolate, breakout) => {
         callback(VestTest.cast<F, G>(isolate), breakout);
       },
-      VestTest.is
+      VestTest.is,
+    );
+  }
+
+  static reduceTests<T, I extends TIsolateTest = TIsolateTest>(
+    callback: (acc: T, test: I, breakout: () => void) => T,
+    initialValue: T,
+    root: MaybeRoot = TestWalker.defaultRoot(),
+  ): T {
+    if (!root) return initialValue;
+    return Walker.reduce(
+      root,
+      (acc, isolate, breakout) => {
+        return callback(acc, VestTest.cast(isolate) as I, breakout);
+      },
+      initialValue,
+      VestTest.is,
     );
   }
 
   static pluckTests(
     predicate: (test: TIsolateTest) => boolean,
-    root: MaybeRoot = TestWalker.defaultRoot()
+    root: MaybeRoot = TestWalker.defaultRoot(),
   ): void {
     if (!root) return;
     Walker.pluck(
@@ -74,7 +90,7 @@ export class TestWalker {
 
         return predicate(isolate);
       },
-      VestTest.is
+      VestTest.is,
     );
   }
 
@@ -88,7 +104,7 @@ export class TestWalker {
 
   static removeTestByFieldName(
     fieldName: TFieldName,
-    root: MaybeRoot = TestWalker.defaultRoot()
+    root: MaybeRoot = TestWalker.defaultRoot(),
   ): void {
     TestWalker.pluckTests(testObject => {
       return matchingFieldName(VestTest.getData(testObject), fieldName);
