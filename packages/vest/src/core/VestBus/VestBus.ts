@@ -2,7 +2,6 @@ import { CB, ValueOf } from 'vest-utils';
 import { Bus, RuntimeEvents, TIsolate } from 'vestjs-runtime';
 
 import { Events } from 'BusEvents';
-import * as CommonStateMachine from 'CommonStateMachine';
 import { TIsolateTest } from 'IsolateTest';
 import {
   useExpireSuiteResultCache,
@@ -12,6 +11,7 @@ import {
 import { TFieldName } from 'SuiteResultTypes';
 import { SuiteWalker } from 'SuiteWalker';
 import { TestWalker } from 'TestWalker';
+import { VestIsolate } from 'VestIsolate';
 import { VestTest } from 'VestTest';
 import { useOmitOptionalFields } from 'omitOptionalFields';
 import { useRunDoneCallbacks, useRunFieldCallbacks } from 'runCallbacks';
@@ -41,7 +41,7 @@ export function useInitVestBus() {
       VestTest.setPending(isolate);
     }
 
-    CommonStateMachine.setPending(isolate);
+    VestIsolate.setPending(isolate);
   });
 
   on(RuntimeEvents.ISOLATE_DONE, (isolate: TIsolate) => {
@@ -49,7 +49,7 @@ export function useInitVestBus() {
       VestBus.emit(Events.TEST_COMPLETED, isolate);
     }
 
-    CommonStateMachine.setDone(isolate);
+    VestIsolate.setDone(isolate);
 
     if (!SuiteWalker.hasPending()) {
       // When no more tests are running, emit the done event

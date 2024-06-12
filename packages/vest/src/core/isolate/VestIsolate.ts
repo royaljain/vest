@@ -26,6 +26,10 @@ export class VestIsolate {
     this.setStatus(isolate, CommonStates.PENDING);
   }
 
+  static setDone(isolate: TIsolate): void {
+    this.setStatus(isolate, CommonStates.DONE);
+  }
+
   static isPending(isolate: TIsolate): boolean {
     return VestIsolate.statusEquals(isolate, CommonStates.PENDING);
   }
