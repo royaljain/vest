@@ -116,34 +116,7 @@ describe('suite.get()', () => {
   describe('exposed methods', () => {
     it('Should have all exposed methods', () => {
       const suite = vest.create(() => {});
-      expect(suite.get()).toMatchInlineSnapshot(`
-        SuiteSummary {
-          "errorCount": 0,
-          "errors": [],
-          "getError": [Function],
-          "getErrors": [Function],
-          "getErrorsByGroup": [Function],
-          "getWarning": [Function],
-          "getWarnings": [Function],
-          "getWarningsByGroup": [Function],
-          "groups": {},
-          "hasErrors": [Function],
-          "hasErrorsByGroup": [Function],
-          "hasWarnings": [Function],
-          "hasWarningsByGroup": [Function],
-          "isPending": [Function],
-          "isTested": [Function],
-          "isValid": [Function],
-          "isValidByGroup": [Function],
-          "pendingCount": 0,
-          "suiteName": undefined,
-          "testCount": 0,
-          "tests": {},
-          "valid": false,
-          "warnCount": 0,
-          "warnings": [],
-        }
-      `);
+      expect(suite.get()).toMatchSnapshot();
     });
   });
 });
@@ -151,35 +124,7 @@ describe('suite.get()', () => {
 describe('suite()', () => {
   describe('exposed methods', () => {
     it('Should have all exposed methods', () => {
-      expect(vest.create(() => {})()).toMatchInlineSnapshot(`
-        {
-          "done": [Function],
-          "errorCount": 0,
-          "errors": [],
-          "getError": [Function],
-          "getErrors": [Function],
-          "getErrorsByGroup": [Function],
-          "getWarning": [Function],
-          "getWarnings": [Function],
-          "getWarningsByGroup": [Function],
-          "groups": {},
-          "hasErrors": [Function],
-          "hasErrorsByGroup": [Function],
-          "hasWarnings": [Function],
-          "hasWarningsByGroup": [Function],
-          "isPending": [Function],
-          "isTested": [Function],
-          "isValid": [Function],
-          "isValidByGroup": [Function],
-          "pendingCount": 0,
-          "suiteName": undefined,
-          "testCount": 0,
-          "tests": {},
-          "valid": false,
-          "warnCount": 0,
-          "warnings": [],
-        }
-      `);
+      expect(vest.create(() => {})()).toMatchSnapshot();
     });
   });
 });

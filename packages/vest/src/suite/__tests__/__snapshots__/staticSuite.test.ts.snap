@@ -114,6 +114,7 @@ exports[`staticSuite dump should output a dump of the suite 1`] = `
     "getError": [Function],
     "getErrors": [Function],
     "getErrorsByGroup": [Function],
+    "getMessage": [Function],
     "getWarning": [Function],
     "getWarnings": [Function],
     "getWarningsByGroup": [Function],

@@ -188,4 +188,89 @@ describe('->getFailure (singular form)', () => {
       });
     });
   });
+
+  describe('getMessage', () => {
+    describe('When the field has an error', () => {
+      it('Should return the error message', () => {
+        const suite = vest.create(() => {
+          vest.test('field_1', 'msg_1', () => false);
+        });
+        expect(suite().getMessage('field_1')).toBe('msg_1');
+        expect(suite.get().getMessage('field_1')).toBe('msg_1');
+      });
+    });
+
+    describe('When the field has a warning', () => {
+      it('Should return the warning message', () => {
+        const suite = vest.create(() => {
+          vest.test('field_1', 'msg_1', () => {
+            vest.warn();
+            return false;
+          });
+        });
+        expect(suite().getMessage('field_1')).toBe('msg_1');
+        expect(suite.get().getMessage('field_1')).toBe('msg_1');
+      });
+    });
+
+    describe('When the field has no errors or warnings', () => {
+      it('Should return undefined', () => {
+        const suite = vest.create(() => {
+          vest.test('field_1', 'msg_1', () => {});
+        });
+        expect(suite().getMessage('field_1')).toBeUndefined();
+        expect(suite.get().getMessage('field_1')).toBeUndefined();
+      });
+    });
+
+    describe('When the field has both an error and a warning', () => {
+      it('Should return the error message', () => {
+        const suite = vest.create(() => {
+          vest.test('field_1', 'msg_1', () => false);
+          vest.test('field_1', 'msg_2', () => {
+            vest.warn();
+            return false;
+          });
+        });
+        expect(suite().getMessage('field_1')).toBe('msg_1');
+        expect(suite.get().getMessage('field_1')).toBe('msg_1');
+      });
+    });
+
+    describe('When the field has multiple errors', () => {
+      it('Should return the first error message', () => {
+        const suite = vest.create(() => {
+          vest.test('field_1', 'msg_1', () => false);
+          vest.test('field_1', 'msg_2', () => false);
+        });
+        expect(suite().getMessage('field_1')).toBe('msg_1');
+        expect(suite.get().getMessage('field_1')).toBe('msg_1');
+      });
+    });
+
+    describe('When the field has multiple warnings', () => {
+      it('Should return the first warning message', () => {
+        const suite = vest.create(() => {
+          vest.test('field_1', 'msg_1', () => {
+            vest.warn();
+            return false;
+          });
+          vest.test('field_1', 'msg_2', () => {
+            vest.warn();
+            return false;
+          });
+        });
+        expect(suite().getMessage('field_1')).toBe('msg_1');
+        expect(suite.get().getMessage('field_1')).toBe('msg_1');
+      });
+    });
+
+    describe('When the field does not exist', () => {
+      it('Should return undefined', () => {
+        const suite = vest.create(() => {});
+        expect(suite().getMessage('field_1')).toBeUndefined();
+        expect(suite.get().getMessage('field_1')).toBeUndefined();
+      });
+    });
+  });
 });

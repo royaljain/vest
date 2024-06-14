@@ -230,7 +230,7 @@ console.log(`Error on field ${error.fieldName}: ${error.message}`);
 // When no field name is provided: Gets the first warning object in the suite
 const firstWarning = result.getWarning();
 console.log(
-  `First warning: ${firstWarning.fieldName} - ${firstWarning.message}`
+  `First warning: ${firstWarning.fieldName} - ${firstWarning.message}`,
 );
 
 // When a field name is provided: Gets the first warning string for the field
@@ -240,7 +240,11 @@ console.log(`Warning for username field: ${usernameWarning}`);
 
 The `getWarning()` function allows you to retrieve the first warning message of a given field. If a field name is not provided, it returns the first warning object in the `warnings` array.
 
-If a field name is provided, it returns the first warning message for that field, or `undefined` if there were no warnings for that field. If no
+If a field name is provided, it returns the first warning message for that field, or `undefined` if there were no warnings for that field.
+
+## `getMessage`
+
+`getMessage` returns the first error or warning message for a given field. If a given field has both errors and warnings, it will return the first error message.
 
 ## `getErrors` and `getWarnings`
 
@@ -318,13 +322,13 @@ const suite = create(data => {
   test(
     'UserEmail',
     'Marked as spam address',
-    async () => await isKnownSpammer(data.address)
+    async () => await isKnownSpammer(data.address),
   );
 
   test(
     'UserName',
     'must not be blacklisted',
-    async () => await isBlacklistedUser(data.username)
+    async () => await isBlacklistedUser(data.username),
   );
 });
 
@@ -400,10 +404,10 @@ Returns `true` if the field is tested, `false` otherwise.
 
 ```js
 const suite = vest.create(() => {
-  test("username", "Username is required", () => {
+  test('username', 'Username is required', () => {
     enforce(username).isNotBlank();
   });
 });
 
-suite.isTested("username"); // true if username has been tested
+suite.isTested('username'); // true if username has been tested
 ```

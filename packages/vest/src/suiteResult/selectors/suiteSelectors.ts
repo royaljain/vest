@@ -25,6 +25,8 @@ export function bindSuiteSelectors<F extends TFieldName, G extends TGroupName>(
     getErrorsByGroup: (
       ...args: Parameters<SuiteSelectors<F, G>['getErrorsByGroup']>
     ) => get().getErrorsByGroup(...args),
+    getMessage: (...args: Parameters<SuiteSelectors<F, G>['getMessage']>) =>
+      get().getMessage(...args),
     getWarning: (...args: Parameters<SuiteSelectors<F, G>['getWarning']>) =>
       get().getWarning(...args),
     getWarnings: (...args: Parameters<SuiteSelectors<F, G>['getWarnings']>) =>
@@ -63,6 +65,7 @@ export function suiteSelectors<F extends TFieldName, G extends TGroupName>(
     getError,
     getErrors,
     getErrorsByGroup,
+    getMessage,
     getWarning,
     getWarnings,
     getWarningsByGroup,
@@ -171,6 +174,10 @@ export function suiteSelectors<F extends TFieldName, G extends TGroupName>(
     return getFailuresByGroup(summary, Severity.ERRORS, groupName, fieldName);
   }
 
+  function getMessage(fieldName: F): Maybe<string> {
+    return getError(fieldName) || getWarning(fieldName);
+  }
+
   function getWarningsByGroup(groupName: G): FailureMessages;
   function getWarningsByGroup(groupName: G, fieldName: F): string[];
   function getWarningsByGroup(
@@ -194,6 +201,7 @@ export interface SuiteSelectors<F extends TFieldName, G extends TGroupName> {
   getError(): SummaryFailure<F, G> | undefined;
   getError(fieldName: F): string | undefined;
   getError(fieldName?: F): SummaryFailure<F, G> | string | undefined;
+  getMessage(fieldName: F): string | undefined;
   getErrors(): FailureMessages;
   getErrors(fieldName: F): string[];
   getErrors(fieldName?: F): string[] | FailureMessages;

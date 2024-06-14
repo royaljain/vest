@@ -19,6 +19,7 @@ exports[`Base behavior Should produce correct validation result 1`] = `
   "getError": [Function],
   "getErrors": [Function],
   "getErrorsByGroup": [Function],
+  "getMessage": [Function],
   "getWarning": [Function],
   "getWarnings": [Function],
   "getWarningsByGroup": [Function],

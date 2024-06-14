@@ -97,6 +97,7 @@ After running your suite, the results object is returned. It has the following f
 - [hasWarnings](./writing_your_suite/accessing_the_result.md#haserrors-and-haswarnings) - Returns true if the suite or the provided field has warnings.
 - [getError](./writing_your_suite/accessing_the_result.md#geterror-and-getwarning) - Returns the first error in the suite, or of a specific field.
 - [getWarning](./writing_your_suite/accessing_the_result.md#geterror-and-getwarning) - Returns the first warning in the suite, or of a specific field.
+- [getMessage](./writing_your_suite/accessing_the_result.md#getmessage) - Returns the first error or warning message of a specific field.
 - [getErrors](./writing_your_suite/accessing_the_result.md#geterrors-and-getwarnings) - Returns an object with errors in the suite, or an array of objects for a specific field.
 - [getWarnings](./writing_your_suite/accessing_the_result.md#geterrors-and-getwarnings) - Returns an object with warnings in the suite, or an array of objects for a specific field.
 - [hasErrorsByGroup](./writing_your_suite/accessing_the_result.md#haserrorsbygroup-and-haswarningsbygroup) - Returns true if the provided group has errors.
