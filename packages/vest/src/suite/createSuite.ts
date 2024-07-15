@@ -9,6 +9,7 @@ import { useCreateVestState, useLoadSuite } from 'Runtime';
 import { SuiteContext } from 'SuiteContext';
 import {
   SuiteName,
+  SuiteResult,
   SuiteRunResult,
   TFieldName,
   TGroupName,
@@ -154,14 +155,18 @@ function staticSuite<
 
       const result = suite(...args);
 
-      return Object.freeze(
-        assign(
-          {
-            dump: suite.dump,
-          },
-          result,
-        ),
-      ) as StaticSuiteRunResult<F, G>;
+      return assign(
+        new Promise<SuiteWithDump<F, G>>(resolve => {
+          result.done(res => {
+            resolve(withDump(res) as SuiteWithDump<F, G>);
+          });
+        }),
+        withDump(result),
+      );
+
+      function withDump(o: any) {
+        return assign({ dump: suite.dump }, o);
+      }
     },
     {
       ...getTypedMethods<F, G>(),
@@ -178,8 +183,12 @@ export type StaticSuite<
 export type StaticSuiteRunResult<
   F extends TFieldName = string,
   G extends TGroupName = string,
-> = SuiteRunResult<F, G> & {
-  dump: CB<TIsolateSuite>;
-} & TTypedMethods<F, G>;
+> = Promise<SuiteWithDump<F, G>> &
+  WithDump<SuiteRunResult<F, G> & TTypedMethods<F, G>>;
+
+type WithDump<T> = T & { dump: CB<TIsolateSuite> };
+type SuiteWithDump<F extends TFieldName, G extends TGroupName> = WithDump<
+  SuiteResult<F, G>
+>;
 
 export { createSuite, staticSuite };
