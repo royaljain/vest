@@ -3,7 +3,7 @@
   "license": "MIT",
   "main": "./dist/cjs/anyone.js",
   "types": "./types/anyone.d.ts",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "author": "ealush",
   "scripts": {
     "test": "vx test",
@@ -11,7 +11,7 @@
     "release": "vx release"
   },
   "dependencies": {
-    "vest-utils": "^1.2.13"
+    "vest-utils": "^1.3.0"
   },
   "module": "./dist/es/anyone.production.js",
   "exports": {
