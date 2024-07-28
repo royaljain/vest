@@ -1,21 +1,10 @@
-import { TEnforceMock } from '../../testUtils/TEnforceMock';
+import { describe, it, expect, beforeEach } from 'vitest';
+
+import { enforce } from 'enforce';
 
 import * as ruleReturn from 'ruleReturn';
 
-const _proxy = global.Proxy;
-let enforce: TEnforceMock;
-
 describe(`enforce`, () => {
-  beforeEach(() => {
-    jest.resetModules();
-    enforce = require('enforce').enforce as TEnforceMock;
-  });
-
-  afterEach(() => {
-    jest.resetModules();
-    global.Proxy = _proxy;
-  });
-
   describe('eager assertions', () => {
     it('Should throw an error when invalid', () => {
       expect(() => enforce('4').isNumber()).toThrow();
@@ -45,10 +34,10 @@ describe(`enforce`, () => {
 
       it('should throw message string when rule fails', () => {
         expect(() => enforce(':(').startsWithUnderscore()).toThrow(
-          ':( does not start with underscore'
+          ':( does not start with underscore',
         );
         expect(() =>
-          enforce(':(').isString().startsWithUnderscore().isNumber()
+          enforce(':(').isString().startsWithUnderscore().isNumber(),
         ).toThrow(':( does not start with underscore');
       });
     });
@@ -76,7 +65,7 @@ describe(`enforce`, () => {
       expect(enforce.isArray().run([])).toEqual(ruleReturn.passing());
       expect(enforce.greaterThan(5).run(6)).toEqual(ruleReturn.passing());
       expect(enforce.greaterThan(5).lessThan(7).run(6)).toEqual(
-        ruleReturn.passing()
+        ruleReturn.passing(),
       );
     });
 
@@ -85,7 +74,7 @@ describe(`enforce`, () => {
       expect(enforce.isArray().run({})).toEqual(ruleReturn.failing());
       expect(enforce.greaterThan(6).run(5)).toEqual(ruleReturn.failing());
       expect(enforce.greaterThan(7).lessThan(5).run(6)).toEqual(
-        ruleReturn.failing()
+        ruleReturn.failing(),
       );
     });
   });
@@ -105,14 +94,14 @@ describe(`enforce`, () => {
       it('Should return true when valid', () => {
         expect(enforce.isEmail().test('example@gmail.com')).toBe(true);
         expect(enforce.isEmail().isString().test('example@gmail.com')).toBe(
-          true
+          true,
         );
       });
 
       it('Should return false when invalid', () => {
         expect(enforce.isEmail().test('example!gmail.com')).toBe(false);
         expect(enforce.isEmail().isString().test('example!gmail.com')).toBe(
-          false
+          false,
         );
       });
     });
