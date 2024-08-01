@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'vitest';
+
 import { inside } from 'inside';
 
 describe('Inside rule', () => {

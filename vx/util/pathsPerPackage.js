@@ -40,6 +40,7 @@ findDuplicates();
 module.exports = {
   packages: groupedMatches,
   list,
+  genPathsPerPackage,
 };
 
 function findDuplicates() {
@@ -81,4 +82,19 @@ function findDuplicates() {
       )}\n`,
     );
   }
+}
+
+function genPathsPerPackage(packageName, { addPathToArray = false }) {
+  const packageData = groupedMatches[packageName];
+
+  return packageData.reduce((paths, currentModule) => {
+    const filePath = vxPath.rel(
+      currentModule.absolute,
+      vxPath.package(packageName),
+    );
+
+    return Object.assign(paths, {
+      [currentModule.name]: addPathToArray ? [filePath] : filePath,
+    });
+  }, {});
 }

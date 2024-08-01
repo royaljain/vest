@@ -1,4 +1,5 @@
 import { all, any } from 'Predicates';
+import { describe, it, vi, expect } from 'vitest';
 
 describe('Predicates', () => {
   describe('all', () => {
@@ -42,8 +43,8 @@ describe('Predicates', () => {
     });
 
     it('Should pass each predicate the value', () => {
-      const spy1 = jest.fn(value => value > 0);
-      const spy2 = jest.fn(value => value < 10);
+      const spy1 = vi.fn(value => value > 0);
+      const spy2 = vi.fn(value => value < 10);
 
       const predicate = all(spy1, spy2);
 

@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'vitest';
+
 import { endsWith } from 'endsWith';
 
 describe('Tests isArray rule', () => {

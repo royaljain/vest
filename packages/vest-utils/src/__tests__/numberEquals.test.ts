@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-
 import { numberEquals } from 'numberEquals';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('Tests numberEquals rule', () => {
   describe('Arguments are numbers', () => {

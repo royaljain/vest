@@ -56,7 +56,7 @@ const cli = yargs(argv)
 const { package, command, fastBuild, _: cliOptions = [] } = cli;
 
 // Prepare all packages before running any other command.
-if (command !== 'prepare') {
+if (command !== 'prepare' && command !== 'dev') {
   commands.prepare();
 }
 

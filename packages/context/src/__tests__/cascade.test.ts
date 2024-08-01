@@ -1,3 +1,5 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+
 import { createCascade, CtxCascadeApi } from 'context';
 
 describe('Cascading Context', () => {
@@ -141,7 +143,7 @@ describe('Cascading Context', () => {
 
   describe('context.bind', () => {
     it('Returns a function', () => {
-      expect(typeof ctx.bind({}, jest.fn())).toBe('function');
+      expect(typeof ctx.bind({}, vi.fn())).toBe('function');
     });
 
     it('Wraps the function with context', () => {
@@ -160,7 +162,7 @@ describe('Cascading Context', () => {
     });
 
     it('Passes runtime arguments to bound function', () => {
-      const fn = jest.fn();
+      const fn = vi.fn();
       const args = Array.from({ length: 100 }, (_, i) => `${i}`); // 1-100
       ctx.bind({}, fn)(...args);
 
@@ -269,7 +271,7 @@ describe('Cascading Context', () => {
 
   describe('init argument', () => {
     it('Should run init function on every context.run', () => {
-      const init = jest.fn();
+      const init = vi.fn();
 
       const ctx = createCascade(init);
 
@@ -293,7 +295,7 @@ describe('Cascading Context', () => {
     });
 
     it('Should accept ctxRef as first argument', () => {
-      const init = jest.fn();
+      const init = vi.fn();
 
       const ctx = createCascade(init);
       const ref1 = { a: 1, b: 2 };
@@ -307,7 +309,7 @@ describe('Cascading Context', () => {
     });
 
     it('Should accept parentContext as second argument', () => {
-      const init = jest.fn();
+      const init = vi.fn();
 
       const ctx = createCascade(init);
       let p1;

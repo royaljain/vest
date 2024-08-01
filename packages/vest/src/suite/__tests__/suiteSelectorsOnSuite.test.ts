@@ -1,4 +1,6 @@
 import { TTestSuite } from 'testUtils/TVestMock';
+import { describe, test, expect, beforeEach } from 'vitest';
+
 import * as vest from 'vest';
 
 describe('Suite Selectors on Suite', () => {
@@ -33,7 +35,6 @@ describe('Suite Selectors on Suite', () => {
       // @ts-ignore
       if (typeof res[key] === 'function') {
         // @ts-ignore
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(typeof suite[key]).toBe('function');
         count++;
       }
@@ -48,7 +49,6 @@ describe('Suite Selectors on Suite', () => {
       // @ts-ignore
       if (typeof res[key] === 'function') {
         // @ts-ignore
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(suite[key]()).toEqual(res[key]());
         count++;
       }

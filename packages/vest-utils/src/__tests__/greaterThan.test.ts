@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-
 import { greaterThan } from 'greaterThan';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('Tests greaterThan rule', () => {
   describe('Arguments are numbers', () => {

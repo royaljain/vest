@@ -1,22 +1,23 @@
 import { faker } from '@faker-js/faker';
+import { TFieldName } from 'SuiteResultTypes';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import { dummyTest } from '../../testUtils/testDummy';
 import { TestPromise } from '../../testUtils/testPromise';
 import promisify from '../promisify';
 
-import { TFieldName } from 'SuiteResultTypes';
 import * as vest from 'vest';
 
 describe('Utility: promisify', () => {
-  let validatorFn: jest.Mock<vest.SuiteRunResult<string, TFieldName>, any>;
+  let validatorFn: vi.Mock<vest.SuiteRunResult<string, TFieldName>, any>;
   let validateAsync: (
     ...args: any[]
   ) => Promise<vest.SuiteResult<string, TFieldName>>;
 
   beforeEach(() => {
-    validatorFn = jest.fn(
+    validatorFn = vi.fn(
       vest.create(
-        jest.fn(() => {
+        vi.fn(() => {
           dummyTest.failing('field_0');
         }),
       ),
@@ -34,7 +35,7 @@ describe('Utility: promisify', () => {
 
   describe('Return value', () => {
     it('should be a function', () => {
-      expect(typeof promisify(jest.fn())).toBe('function');
+      expect(typeof promisify(vi.fn())).toBe('function');
     });
 
     it('should be a promise', () =>

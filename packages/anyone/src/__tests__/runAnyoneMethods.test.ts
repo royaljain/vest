@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'vitest';
+
 import { FALSY_VALUES, TRUTHY_VALUES } from './anyoneTestValues';
 
 import run from 'runAnyoneMethods';

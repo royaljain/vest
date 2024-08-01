@@ -1,13 +1,14 @@
 import { enforce } from 'enforce';
 import * as ruleReturn from 'ruleReturn';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import 'schema';
 import 'compounds';
 
-let keepContext = jest.fn();
+let keepContext = vi.fn();
 
 describe('enforce.context', () => {
   beforeEach(() => {
-    keepContext = jest.fn();
+    keepContext = vi.fn();
   });
 
   describe('base structure', () => {

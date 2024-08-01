@@ -1,9 +1,10 @@
+import { Modes } from 'Modes';
+import { TTestSuite } from 'testUtils/TVestMock';
+import { describe, it, expect, beforeEach } from 'vitest';
 import wait from 'wait';
 
 import { TestPromise } from '../../../testUtils/testPromise';
 
-import { Modes } from 'Modes';
-import { TTestSuite } from 'testUtils/TVestMock';
 import {
   test,
   optional,

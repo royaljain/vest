@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'vitest';
+
 import compose from 'compose';
 import { enforce } from 'n4s';
 import * as ruleReturn from 'ruleReturn';

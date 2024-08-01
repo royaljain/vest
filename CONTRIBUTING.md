@@ -19,7 +19,7 @@ The structure of the repo is as follows
 ├── vx                          # Repo setup and CI config
 │   ├── commands                # All the supported cli commands
 │   ├── config
-│   │   ├── jest
+│   │   ├── vitest
 │   │   └── rollup
 │   │       ├── plugins
 │   ├── scripts                 # All the scripts used to build and release the packages
@@ -57,13 +57,13 @@ The naming convention for a test file is `moduleName.test.ts`.
 
 #### Running tests
 
-To run tests, you need to run `vx test`. This will run all tests in all packages. The tests are being run by jest.
+To run tests, you need to run `vx test`. This will run all tests in all packages. The tests are being run by vitest.
 
 You can narrow it down by specifying the package name:
 
 `vx test vest`
 
-Normal jest options can be passed to the test command.
+Normal vitest options can be passed to the test command.
 
 `vx test --watch`
 

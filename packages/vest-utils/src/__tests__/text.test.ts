@@ -1,4 +1,5 @@
 import { text } from 'text';
+import { describe, it, expect } from 'vitest';
 
 describe('text', () => {
   describe('named substitutions (object)', () => {

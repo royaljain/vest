@@ -1,4 +1,5 @@
 import { sample, random } from 'lodash';
+import { describe, it, expect } from 'vitest';
 
 import { TRUTHY_VALUES, FALSY_VALUES } from './anyoneTestValues';
 

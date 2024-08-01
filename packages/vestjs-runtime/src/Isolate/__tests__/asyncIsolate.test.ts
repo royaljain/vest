@@ -1,9 +1,10 @@
-import { CB } from 'vest-utils';
-import wait from 'wait';
-
 import { useBus } from 'Bus';
 import { Isolate, TIsolate } from 'Isolate';
 import { RuntimeEvents } from 'RuntimeEvents';
+import { CB } from 'vest-utils';
+import { describe, vi, it, expect, test } from 'vitest';
+import wait from 'wait';
+
 import { VestRuntime } from 'vestjs-runtime';
 
 describe('AsyncIsolate', () => {
@@ -49,7 +50,7 @@ describe('AsyncIsolate', () => {
   });
 
   it('Should emit an event when an async isolate is done running', () => {
-    const cb = jest.fn();
+    const cb = vi.fn();
     return new Promise<void>(async done => {
       let child = {} as TIsolate;
       withRunTime(() => {

@@ -1,21 +1,10 @@
-import { TEnforceMock } from '../../testUtils/TEnforceMock';
+import { describe, it, expect, beforeEach } from 'vitest';
+
+import { enforce } from 'enforce';
 
 import * as ruleReturn from 'ruleReturn';
 
-const _proxy = global.Proxy;
-let enforce: TEnforceMock;
-
 describe(`enforce`, () => {
-  beforeEach(() => {
-    jest.resetModules();
-    enforce = require('enforce').enforce as TEnforceMock;
-  });
-
-  afterEach(() => {
-    jest.resetModules();
-    global.Proxy = _proxy;
-  });
-
   describe('eager assertions', () => {
     it('Should throw an error when invalid', () => {
       expect(() => enforce('4').isNumber()).toThrow();

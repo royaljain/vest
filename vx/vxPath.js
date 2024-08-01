@@ -60,6 +60,10 @@ vxPath.packageJson = (pkgName = usePackage()) => {
   return vxPath.package(pkgName, opts.fileNames.PACKAGE_JSON);
 };
 
+vxPath.packageVitestConfig = (pkgName = usePackage()) => {
+  return vxPath.package(pkgName, opts.fileNames.VITEST_CONFIG);
+};
+
 vxPath.packageNpmIgnore = (pkgName = usePackage()) => {
   return vxPath.package(pkgName, opts.fileNames.NPM_IGNORE);
 };
@@ -109,17 +113,22 @@ vxPath.ROLLUP_CONFIG_PATH = path.resolve(
   opts.fileNames.ROLLUP_CONFIG,
 );
 
-vxPath.JEST_CONFIG_PATH = path.resolve(vxPath.VX_CONFIG_PATH, opts.dir.JEST);
+vxPath.VITEST_CONFIG_PATH = path.resolve(
+  vxPath.VX_CONFIG_PATH,
+  opts.dir.VITEST,
+);
 
-vxPath.JEST_CONFIG_FILE_PATH = path.resolve(
-  vxPath.JEST_CONFIG_PATH,
-  opts.fileNames.JEST_CONFIG,
+vxPath.VITEST_CONFIG_FILE_PATH = path.resolve(
+  vxPath.ROOT_PATH,
+  opts.fileNames.VITEST_CONFIG,
 );
 
 vxPath.TSCONFIG_PATH = path.resolve(
   vxPath.ROOT_PATH,
   opts.fileNames.TSCONFIG_JSON,
 );
+
+vxPath.TEST_FILE_PATTERN = `**/${opts.dir.TESTS}/*.test.ts`;
 
 vxPath.PACKAGES_PATH = path.resolve(vxPath.ROOT_PATH, opts.dir.PACKAGES);
 
