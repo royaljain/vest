@@ -30,6 +30,7 @@
         "./src/suiteResult/selectors/hasFailuresByTestObjects.ts"
       ],
       "collectFailures": ["./src/suiteResult/selectors/collectFailures.ts"],
+      "LazyDraft": ["./src/suiteResult/selectors/LazyDraft.ts"],
       "shouldSkipDoneRegistration": [
         "./src/suiteResult/done/shouldSkipDoneRegistration.ts"
       ],

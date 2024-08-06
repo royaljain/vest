@@ -2,11 +2,11 @@ import type { CB } from 'vest-utils';
 import { optionalFunctionValue } from 'vest-utils';
 import { Isolate } from 'vestjs-runtime';
 
+import { LazyDraft } from 'LazyDraft';
 import { SuiteContext, useOmitted } from 'SuiteContext';
 import { TFieldName, TGroupName } from 'SuiteResultTypes';
 import { VestIsolateType } from 'VestIsolateType';
 import { TDraftCondition } from 'getTypedMethods';
-import { useCreateSuiteResult } from 'suiteResult';
 
 /**
  * Conditionally omits tests from the suite.
@@ -27,10 +27,7 @@ export function omitWhen<F extends TFieldName, G extends TGroupName>(
       {
         omitted:
           useWithinActiveOmitWhen() ||
-          optionalFunctionValue(
-            conditional,
-            optionalFunctionValue(useCreateSuiteResult),
-          ),
+          optionalFunctionValue(conditional, LazyDraft<F, G>()),
       },
       callback,
     );

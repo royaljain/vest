@@ -1,11 +1,11 @@
 import { CB, optionalFunctionValue } from 'vest-utils';
 import { Isolate } from 'vestjs-runtime';
 
+import { LazyDraft } from 'LazyDraft';
 import { SuiteContext, useSkipped } from 'SuiteContext';
 import { TFieldName, TGroupName } from 'SuiteResultTypes';
 import { VestIsolateType } from 'VestIsolateType';
 import { TDraftCondition } from 'getTypedMethods';
-import { useCreateSuiteResult } from 'suiteResult';
 
 /**
  * Conditionally skips running tests within the callback.
@@ -29,10 +29,7 @@ export function skipWhen<F extends TFieldName, G extends TGroupName>(
           // we should skip the test if the parent conditional is true.
           useIsExcludedIndividually() ||
           // Otherwise, we should skip the test if the conditional is true.
-          optionalFunctionValue(
-            condition,
-            optionalFunctionValue(useCreateSuiteResult),
-          ),
+          optionalFunctionValue(condition, LazyDraft<F, G>()),
       },
       callback,
     );

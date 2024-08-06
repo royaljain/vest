@@ -1,7 +1,12 @@
-import { freezeAssign } from 'vest-utils';
+import { assign, Maybe } from 'vest-utils';
 
 import { useSuiteName, useSuiteResultCache } from 'Runtime';
-import { SuiteResult, TFieldName, TGroupName } from 'SuiteResultTypes';
+import {
+  SuiteResult,
+  SuiteSummary,
+  TFieldName,
+  TGroupName,
+} from 'SuiteResultTypes';
 import { suiteSelectors } from 'suiteSelectors';
 import { useProduceSuiteSummary } from 'useProduceSuiteSummary';
 
@@ -15,12 +20,16 @@ export function useCreateSuiteResult<
 
     // @vx-allow use-use
     const suiteName = useSuiteName();
-    return freezeAssign<SuiteResult<F, G>>(
-      summary,
-      suiteSelectors<F, G>(summary),
-      {
-        suiteName,
-      },
-    ) as SuiteResult<F, G>;
+
+    return Object.freeze(constructSuiteResultObject<F, G>(summary, suiteName));
   });
+}
+
+export function constructSuiteResultObject<
+  F extends TFieldName,
+  G extends TGroupName,
+>(summary: SuiteSummary<F, G>, suiteName?: Maybe<string>): SuiteResult<F, G> {
+  return assign(summary, suiteSelectors<F, G>(summary), {
+    suiteName,
+  }) as SuiteResult<F, G>;
 }
