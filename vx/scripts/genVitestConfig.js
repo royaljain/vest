@@ -74,6 +74,7 @@ function mainConfig() {
   logger.log('📝 Writing main vitest.config file');
 
   fs.writeFileSync(configPath, mainConfig, 'utf8');
+  exec(`yarn prettier ${configPath} -w`);
 }
 
 function mainConfigTemplate() {
