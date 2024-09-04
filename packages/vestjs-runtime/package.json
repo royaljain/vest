@@ -1,6 +1,6 @@
 {
   "name": "vestjs-runtime",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Internal runtime module used by Vest",
   "license": "MIT",
   "author": "ealush",
