@@ -1,8 +1,8 @@
-import { SuiteSerializer } from 'SuiteSerializer';
-import { VestIsolateType } from 'VestIsolateType';
 import { describe, it, expect } from 'vitest';
 import wait from 'wait';
 
+import { SuiteSerializer } from 'SuiteSerializer';
+import { VestIsolateType } from 'VestIsolateType';
 import * as vest from 'vest';
 import { staticSuite } from 'vest';
 
@@ -170,6 +170,17 @@ describe('runStatic', () => {
       const result = await res;
       expect(result).toHaveProperty('dump');
       expect(result.dump()).toHaveProperty('$type', VestIsolateType.Suite);
+    });
+  });
+  describe('When creating the suite with a name', () => {
+    it("Should set the suite's name", () => {
+      const suite = vest.create('user_form', () => {
+        vest.test('t1', () => false);
+      });
+
+      const res = suite.runStatic();
+
+      expect(res.suiteName).toBe('user_form');
     });
   });
 });

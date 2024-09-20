@@ -1,4 +1,4 @@
-import { assign, CB } from 'vest-utils';
+import { asArray, assign, CB } from 'vest-utils';
 import { Bus, VestRuntime } from 'vestjs-runtime';
 
 import { TTypedMethods, getTypedMethods } from './getTypedMethods';
@@ -40,7 +40,7 @@ function createSuite<
 >(
   ...args: [suiteName: SuiteName, suiteCallback: T] | [suiteCallback: T]
 ): Suite<F, G, T> {
-  const [suiteCallback, suiteName] = args.reverse() as [T, SuiteName];
+  const [suiteCallback, suiteName] = asArray(args).reverse() as [T, SuiteName];
 
   validateSuiteCallback(suiteCallback);
 
