@@ -20,14 +20,14 @@ module.exports = {
   },
   create(context) {
     return {
-      [matcher(FUNC_DEC)](node) {
+      [matcher(FUNC_DEC)]() {
         const parentFunction = findAncestor(context, FUNC_DEC);
 
         if (parentFunction && !parentFunction.id.name.match(USE_MATCHER)) {
           report(context, parentFunction, parentFunction.id);
         }
       },
-      [matcher(VAR_DEC)](node) {
+      [matcher(VAR_DEC)]() {
         const parentFunction = findAncestor(context, 'ArrowFunctionExpression');
 
         if (parentFunction) {

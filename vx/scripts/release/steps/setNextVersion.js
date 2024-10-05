@@ -7,13 +7,7 @@ const packageJson = require('vx/util/packageJson');
 const { usePackage } = require('vx/vxContext');
 const vxPath = require('vx/vxPath');
 
-function setNextVersion({
-  tagId,
-  tag,
-  nextVersion,
-  versionToPublish,
-  changeLevel,
-}) {
+function setNextVersion({ tagId, tag, versionToPublish, changeLevel }) {
   const packageName = usePackage();
   const existingPkgJson = packageJson(packageName);
 

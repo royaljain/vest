@@ -103,7 +103,7 @@ function updateValues(packagePath, config) {
   });
 }
 
-function removeTemplateExtensionFromFile(packagePath, packageName) {
+function removeTemplateExtensionFromFile(packagePath, _packageName) {
   glob.sync(packagePath + '/**/*.tmpl').forEach(file => {
     fsExtra.moveSync(file, file.replace('.tmpl', ''));
   });

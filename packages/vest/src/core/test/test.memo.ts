@@ -66,7 +66,7 @@ function useGetTestFromCache(
     return cache(dependencies, cacheAction);
   }
 
-  // FIXME(@ealush 2024-08-12): This is some kind of a hack. Instead organically letting Vest set the next
+  // FIXME:(@ealush 2024-08-12): This is some kind of a hack. Instead organically letting Vest set the next
   // child of the isolate, we're forcing it from the outside.
   // Instead, an ideal solution would probably be to have test.memo be its own isolate
   // that just injects a historic output from a previous test run.

@@ -1,4 +1,3 @@
-const { glob } = require('glob');
 const { memoize } = require('lodash');
 
 const packageJson = require('vx/util/packageJson');

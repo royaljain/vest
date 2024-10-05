@@ -51,7 +51,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': [
-          1,
+          2,
           {
             argsIgnorePattern: '^_',
             varsIgnorePattern: '^_',
@@ -113,9 +113,6 @@ module.exports = {
         ],
       },
     ],
-    'vitest/expect-expect': 0,
-    'vitest/no-identical-title': 0,
-    'vitest/no-standalone-expect': 0,
     'max-params': [1, { max: 4 }],
     'no-console': 2,
     'no-else-return': 1,
@@ -127,7 +124,14 @@ module.exports = {
     'no-undef': 2,
     'no-unneeded-ternary': 2,
     'no-unused-expressions': 2,
-    'no-unused-vars': 0,
+    'no-unused-vars': [
+      2,
+      {
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
+    ],
     'no-useless-catch': 2,
     'no-useless-computed-key': 2,
     'no-useless-return': 2,
@@ -144,6 +148,9 @@ module.exports = {
         minKeys: 4,
       },
     ],
+    'vitest/expect-expect': 0,
+    'vitest/no-identical-title': 0,
+    'vitest/no-standalone-expect': 0,
   },
   settings: {
     'import/parsers': {

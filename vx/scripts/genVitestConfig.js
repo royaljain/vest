@@ -5,7 +5,7 @@ const logger = require('vx/logger');
 const opts = require('vx/opts');
 const packageNames = require('vx/packageNames');
 const packageList = require('vx/util/packageList');
-const { genPathsPerPackage, packages } = require('vx/util/pathsPerPackage');
+const { genPathsPerPackage } = require('vx/util/pathsPerPackage');
 const vxPath = require('vx/vxPath');
 
 const VITEST_CONFIG_PATH = 'vx/config/vitest/customMatchers.ts';

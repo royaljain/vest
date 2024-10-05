@@ -1,5 +1,3 @@
-const path = require('path');
-
 const { writeJSONSync } = require('fs-extra');
 const lodash = require('lodash');
 

@@ -1,6 +1,6 @@
 export default function partition<T>(
   array: T[],
-  predicate: (value: T, _index: number, array: T[]) => boolean,
+  predicate: (_value: T, _index: number, _array: T[]) => boolean,
 ): [T[], T[]] {
   return array.reduce(
     (partitions: [T[], T[]], value, number) => {

@@ -1,15 +1,12 @@
-import { SuiteWalker } from 'SuiteWalker';
 import { describe, it, expect, beforeEach } from 'vitest';
 import wait from 'wait';
 
 import * as vest from 'vest';
 
 describe('SuiteWalker.useHasRemainingWithTestNameMatching', () => {
-  let hasRemaining: boolean | null = null;
   let count = 0;
 
   beforeEach(() => {
-    hasRemaining = null;
     count = 0;
   });
   describe('When no field specified', () => {
