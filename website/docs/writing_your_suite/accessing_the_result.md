@@ -398,7 +398,7 @@ suite.get().isPending('username');
 
 ## isTested
 
-Returns whether a given field has been tested or not. A field is considered tested if it has at least one test that ran.
+Returns whether a given field has been tested or not. A field is considered tested if it has at least one test that ran. Often used as a replacement for dirty checking.
 
 Returns `true` if the field is tested, `false` otherwise.
 
