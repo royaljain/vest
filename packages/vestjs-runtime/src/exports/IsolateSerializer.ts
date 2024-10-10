@@ -65,12 +65,20 @@ export class IsolateSerializer {
     return expanded;
   }
 
-  static serialize(isolate: Nullable<TIsolate>): string {
+  static serialize(
+    isolate: Nullable<TIsolate>,
+    replacer: (value: any, key: string) => any,
+  ): string {
     if (isNullish(isolate)) {
       return '';
     }
 
-    const minified = minifyObject(isolate, ExcludedFromDump);
+    const minified = minifyObject(isolate, (value: any, key: string) => {
+      if (ExcludedFromDump.has(key as any)) {
+        return undefined;
+      }
+      return replacer(value, key);
+    });
 
     return JSON.stringify(minified);
   }

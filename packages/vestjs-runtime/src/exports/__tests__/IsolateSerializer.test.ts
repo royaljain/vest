@@ -1,9 +1,9 @@
-import { Isolate, TIsolate } from 'Isolate';
-import { IsolateSerializer } from 'IsolateSerializer';
-import { Maybe } from 'vest-utils';
+import { CB } from 'vest-utils';
 import { describe, it, expect, test } from 'vitest';
 
-import { VestRuntime } from 'vestjs-runtime';
+import { Isolate, TIsolate } from 'Isolate';
+import { IsolateSerializer } from 'IsolateSerializer';
+import { IRecociler, VestRuntime } from 'vestjs-runtime';
 
 describe('IsolateSerializer', () => {
   describe('serialize', () => {
@@ -16,7 +16,7 @@ describe('IsolateSerializer', () => {
 
   describe('deserialize', () => {
     it('Should fully inflate the tree', () => {
-      const { root, serialized } = createRoot();
+      const { serialized } = createRoot();
 
       const inflated = IsolateSerializer.deserialize(serialized);
 
@@ -59,16 +59,38 @@ describe('IsolateSerializer', () => {
 
   describe('Custom Data Serialization', () => {
     it('Should serialize data with custom keys', () => {
-      const { serialized } = createRoot({
-        keys: {
-          data: {
-            some_data: 'sd',
-          },
-        },
-      });
+      const { serialized } = createRoot();
 
-      const parsed = JSON.parse(serialized);
       expect(serialized).toMatchSnapshot();
+    });
+
+    it('Should take a replacer param', () => {
+      const { root } = createRoot();
+
+      root.status = 'pending';
+      // @ts-ignore
+      root.children[0].status = 'done';
+      // @ts-ignore
+      root.children[1].status = 'failed';
+
+      const serialized = IsolateSerializer.serialize(
+        root,
+        (value: any, key: string) => {
+          if (key === 'status' && value === 'pending') {
+            return 'incomplete';
+          }
+
+          return value;
+        },
+      );
+
+      const inflated = IsolateSerializer.deserialize(serialized);
+
+      expect(inflated.status).toBe('incomplete');
+      // @ts-ignore
+      expect(inflated.children[0].status).toBe('done');
+      // @ts-ignore
+      expect(inflated.children[1].status).toBe('failed');
     });
 
     describe('value serialization', () => {
@@ -81,24 +103,8 @@ describe('IsolateSerializer', () => {
         // @ts-ignore
         root.children[1].status = 'failed';
 
-        const minimap = {
-          values: {
-            status: {
-              pending: 'p',
-              done: 'd',
-              failed: 'f',
-            },
-            $type: {
-              URoot: 'UR',
-              UChild_1: 'UC1',
-              UChild_2: 'UC2',
-              UChild_3: 'UC3',
-            },
-          },
-        };
-
-        const serialized = IsolateSerializer.serialize(root, minimap);
-        const inflated = IsolateSerializer.deserialize(serialized, minimap);
+        const serialized = IsolateSerializer.serialize(root, v => v);
+        const inflated = IsolateSerializer.deserialize(serialized);
 
         expect(inflated.status).toBe('pending');
         // @ts-ignore
@@ -137,21 +143,9 @@ describe('IsolateSerializer', () => {
     });
 
     it('Should inflate with correct keys', () => {
-      const { serialized } = createRoot({
-        keys: {
-          data: {
-            some_data: 'sd',
-          },
-        },
-      });
+      const { serialized } = createRoot();
 
-      const inflated = IsolateSerializer.deserialize(serialized, {
-        keys: {
-          data: {
-            some_data: 'sd',
-          },
-        },
-      });
+      const inflated = IsolateSerializer.deserialize(serialized);
 
       expect(inflated.data.some_data).toBe(true);
       expect(inflated).not.toHaveProperty('sd');
@@ -188,12 +182,15 @@ describe('IsolateSerializer', () => {
 });
 
 function withRunTime<T>(fn: CB<T>) {
-  return VestRuntime.Run(VestRuntime.createRef({}), () => {
-    return fn();
-  });
+  return VestRuntime.Run(
+    VestRuntime.createRef({} as IRecociler, v => v),
+    () => {
+      return fn();
+    },
+  );
 }
 
-function createRoot(miniMap: Maybe<Record<string, any>>) {
+function createRoot(replacer: (_value: any, _key: string) => any = v => v) {
   let serialized: string, root: TIsolate;
 
   withRunTime(() => {
@@ -209,7 +206,7 @@ function createRoot(miniMap: Maybe<Record<string, any>>) {
       },
     );
 
-    serialized = IsolateSerializer.serialize(root, miniMap);
+    serialized = IsolateSerializer.serialize(root, replacer);
   });
 
   // @ts-ignore
