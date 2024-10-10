@@ -1,5 +1,6 @@
+import { describe, it, expect, vi } from 'vitest';
+
 import { expandObject, minifyObject } from 'minifyObject';
-import { describe, it, expect } from 'vitest';
 
 describe('minifyObject', () => {
   it('should be a function', () => {
@@ -179,13 +180,48 @@ describe('minifyObject', () => {
     ]);
   });
 
-  describe('excludeKeys argument', () => {
-    it('When supplied, should exclude provided keys from output', () => {
+  describe('replacer function', () => {
+    it('Should be a function receiving the value and key being iterated', () => {
+      const replacer = vi.fn((value: any, _key: string) => value);
       const obj = {
         lorem: 'hi!',
         a: 1,
       };
-      expect(minifyObject(obj, new Set(['lorem']))).toEqual([{ a: 1 }, {}]);
+      minifyObject(obj, replacer);
+
+      expect(replacer.mock.calls[0]).toEqual(['hi!', 'lorem']);
+      expect(replacer.mock.calls[1]).toEqual([1, 'a']);
+    });
+
+    it('Should replace the object value when a different value is being returned', () => {
+      const obj = {
+        lorem: 'hi!',
+        a: 1,
+      };
+
+      expect(minifyObject(obj, v => v + 1)).toEqual([
+        {
+          a: 2,
+          lorem: 'hi!1',
+        },
+        {},
+      ]);
+    });
+
+    it('Should omit values when returning undefined', () => {
+      const obj = {
+        lorem: 'hi!',
+        a: 1,
+      };
+
+      expect(
+        minifyObject(obj, (v, k) => (k === 'lorem' ? undefined : v)),
+      ).toEqual([
+        {
+          a: 1,
+        },
+        {},
+      ]);
     });
   });
 

@@ -26,12 +26,12 @@ function genMinifiedKey() {
 
 export function minifyObject(
   obj: any,
-  excludeKeys: Set<string> = new Set(),
+  replacer: MinifyObjectReplacer = v => v,
 ): [any, any] {
   const countMap = new Map<any, number>();
-  countOccurrences(obj, countMap, excludeKeys);
+  countOccurrences(obj, countMap, replacer);
   const maps = genMap(countMap);
-  const o = minifyObjectImpl(obj, maps.map, excludeKeys);
+  const o = minifyObjectImpl(obj, maps.map, replacer);
   // need to reverse the map so that the minified keys are the keys and the original keys are the values
   // and turn it into an object
 
@@ -86,22 +86,21 @@ function addCount(value: any, countMap: Map<any, number>) {
   countMap.set(value, (countMap.get(value) || 0) + 1);
 }
 
-// eslint-disable-next-line complexity
 function countOccurrences(
   obj: any,
   countMap: Map<any, number>,
-  excludeKeys: Set<string>,
+  replacer: MinifyObjectReplacer,
 ) {
   for (const key in obj) {
-    const value = obj[key];
-    if (!shouldMinify({ key, value }, excludeKeys)) continue;
+    const value = replacer(obj[key], key);
+    if (!shouldMinify(value)) continue;
 
     if (!Array.isArray(obj)) {
       addCount(key, countMap);
     }
 
     if (isObject(value)) {
-      countOccurrences(value, countMap, excludeKeys);
+      countOccurrences(value, countMap, replacer);
     } else {
       addCount(value, countMap);
     }
@@ -113,14 +112,7 @@ function isNonSerializable(value: any): boolean {
 }
 
 // eslint-disable-next-line complexity
-function shouldMinify(
-  { key, value }: { key?: string; value?: any },
-  excludeKeys: Set<string>,
-): boolean {
-  if (key && excludeKeys.has(key)) {
-    return false;
-  }
-
+function shouldMinify(value: any): boolean {
   if (isObject(value) && isEmpty(value)) {
     return false;
   }
@@ -139,17 +131,17 @@ function shouldMinify(
 function minifyObjectImpl(
   obj: any,
   map: Map<any, string>,
-  excludeKeys: Set<string>,
+  replacer: MinifyObjectReplacer,
 ): any {
   const minifiedObject: any = getRootNode(obj);
 
   for (const key in obj) {
-    const value = obj[key];
-    if (!shouldMinify({ key, value }, excludeKeys)) continue;
+    const value = replacer(obj[key], key);
+    if (!shouldMinify(value)) continue;
 
     let minifiedValue;
     if (isObject(value)) {
-      minifiedValue = minifyObjectImpl(value, map, excludeKeys);
+      minifiedValue = minifyObjectImpl(value, map, replacer);
     } else {
       minifiedValue = minifyValue(value, map);
     }
@@ -202,3 +194,5 @@ function setValue(container: any, value: any, key: string) {
 function getRootNode(node: any) {
   return isArray(node) ? [] : {};
 }
+
+export type MinifyObjectReplacer = (value: any, key: string) => any;
