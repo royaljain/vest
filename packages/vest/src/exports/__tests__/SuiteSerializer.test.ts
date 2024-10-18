@@ -1,6 +1,6 @@
-import { SuiteSerializer } from 'SuiteSerializer';
 import { describe, it, expect } from 'vitest';
 
+import { SuiteSerializer } from 'SuiteSerializer';
 import * as vest from 'vest';
 
 describe('SuiteSerializer', () => {
@@ -48,7 +48,6 @@ describe('suite.resume', () => {
     });
 
     suite();
-    suite.get();
 
     const serialized = SuiteSerializer.serialize(suite);
 

@@ -62,7 +62,7 @@ function addSummaryStats<F extends TFieldName, G extends TGroupName>(
     summary.pendingCount++;
   }
 
-  if (!VestTest.isNonActionable(testObject)) {
+  if (shouldCountTestRun(testObject)) {
     summary.testCount++;
   }
 
@@ -141,7 +141,9 @@ function appendTestObject(
   }
 
   // Increment the test count.
-  nextSummaryKey.testCount++;
+  if (shouldCountTestRun(testObject)) {
+    nextSummaryKey.testCount++;
+  }
 
   return nextSummaryKey;
 
@@ -163,4 +165,10 @@ function baseTestStats() {
     valid: true,
     warnings: [],
   });
+}
+
+function shouldCountTestRun<F extends TFieldName, G extends TGroupName>(
+  testObject: TIsolateTest<F, G>,
+): boolean {
+  return VestTest.isTested(testObject) || VestTest.isPending(testObject);
 }

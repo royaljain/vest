@@ -1,7 +1,9 @@
 import { CB } from 'vest-utils';
 import { IsolateSerializer } from 'vestjs-runtime';
+import { IsolateKeys } from 'vestjs-runtime/src/Isolate/IsolateKeys';
 
 import { TIsolateSuite } from 'IsolateSuite';
+import { TestStatus } from 'IsolateTestStateMachine';
 import { TFieldName, TGroupName } from 'SuiteResultTypes';
 import { Suite } from 'SuiteTypes';
 
@@ -11,9 +13,9 @@ export type Dumpable = {
 
 export class SuiteSerializer {
   static serialize(suite: Dumpable) {
-    const dump = { ...suite.dump(), output: undefined };
+    const dump = { ...suite.dump() };
 
-    return IsolateSerializer.serialize(dump);
+    return IsolateSerializer.serialize(dump, suiteSerializerReplacer);
   }
 
   static deserialize(
@@ -31,3 +33,31 @@ export class SuiteSerializer {
     suite.resume(suiteRoot);
   }
 }
+
+function suiteSerializerReplacer(value: any, key: string) {
+  if (key === 'output') {
+    return undefined;
+  }
+
+  if (key === IsolateKeys.Status) {
+    if (AllowedStatuses.has(value)) {
+      return value;
+    }
+
+    return undefined;
+  }
+
+  if (DisallowedKeys.has(key)) {
+    return undefined;
+  }
+
+  return value;
+}
+
+const AllowedStatuses = new Set([
+  TestStatus.FAILED,
+  TestStatus.PASSING,
+  TestStatus.WARNING,
+]);
+
+const DisallowedKeys = new Set(['focusMode', 'match', 'matchAll', 'severity']);

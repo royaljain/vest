@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker';
-import { ErrorStrings } from 'ErrorStrings';
-import { TIsolateTest } from 'IsolateTest';
-import { VestTest } from 'VestTest';
 import { text } from 'vest-utils';
 import { IsolateSerializer } from 'vestjs-runtime';
 import { describe, it, expect, vi } from 'vitest';
 
 import { TestPromise } from '../../../testUtils/testPromise';
 
+import { ErrorStrings } from 'ErrorStrings';
+import { TIsolateTest } from 'IsolateTest';
+import { VestTest } from 'VestTest';
 import { enforce } from 'vest';
 import * as vest from 'vest';
 
@@ -193,7 +193,7 @@ describe("Test Vest's `test` function", () => {
       expect(testObject.data.fieldName).toBe('field_name');
       expect(testObject.key).toBe('keyboardcat');
       expect(testObject.data.message).toBe('failure message');
-      expect(IsolateSerializer.serialize(testObject)).toMatchSnapshot();
+      expect(IsolateSerializer.serialize(testObject, v => v)).toMatchSnapshot();
     });
 
     it('throws when field name is not a string', () => {
