@@ -143,6 +143,7 @@ function genPackageJsonBase(moduleName, { namespace, isNested = false }) {
     ...umdExports,
     name: moduleName,
     types: typesPath,
+    license: 'MIT',
   };
 }
 
