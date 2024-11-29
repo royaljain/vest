@@ -48,6 +48,10 @@ Writing form validations can be time-consuming and complex, especially as your w
 
 Vest's declarative syntax is also designed to be easy to learn, especially for developers who are already familiar with unit testing frameworks. With Vest, you can leverage your existing knowledge to write effective form validations quickly and easily.
 
+# Vest AI Bot
+
+[Vest](https://codeparrot.ai/oracle?owner=ealush&repo=vest) Bot will help you understand this repository better. You can ask for code examples, installation guide, debugging help and much more.
+
 ### 💡 Easy to Learn
 
 Vest adopts the syntax and style of unit testing frameworks, so you can leverage the knowledge you already have to write your form validations.
